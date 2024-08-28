@@ -1,0 +1,28 @@
+steps:
+# Build the container image
+# This will save the image and give it the tag latest
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - -c
+    - >
+      docker build
+      -t $LOCATION-docker.pkg.dev/$PROJECT_ID/docker/imagename:staging
+      -t $LOCATION-docker.pkg.dev/$PROJECT_ID/docker/imagename:$COMMIT_SHA
+      -t $LOCATION-docker.pkg.dev/$PROJECT_ID/docker/imagename:$BRANCH_NAME
+      --build-arg GITHUB_TOKEN=$$TOKEN
+      .
+
+# Push to container registry
+- name: gcr.io/cloud-builders/docker
+  args:
+      - push
+      - -a
+      - $LOCATION-docker.pkg.dev/${PROJECT_ID}/docker/help-desk
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'name', '--image', '$LOCATION-docker.pkg.dev/$PROJECT_ID/docker/imagename', '--region', '$LOCATION']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

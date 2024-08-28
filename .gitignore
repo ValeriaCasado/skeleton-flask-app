@@ -1,0 +1,13 @@
+*.pyc
+*.DS_Store
+.ipynb_checkpoints/
+.idea/
+.vscode
+.python-version
+.settings/
+local.conf
+logs/
+nogit/
+in/
+out/
+venv/
