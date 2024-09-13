@@ -11,3 +11,4 @@ nogit/
 in/
 out/
 venv/
+.env
