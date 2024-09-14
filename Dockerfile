@@ -5,6 +5,8 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY requirements.txt ./
 
+EXPOSE 8000
+
 # export GITHUB_TOKEN=${GITHUB_TOKEN}
 RUN pip install -r requirements.txt
 
